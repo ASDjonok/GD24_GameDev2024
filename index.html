@@ -1,7 +1,15 @@
 <!doctype html>
 <html>
     <head>
-        <script src="https://pixijs.download/release/pixi.js"></script>
+        <!--<script src="https://pixijs.download/release/pixi.js"></script>
+        <script src="particle-emitter.js"></script>-->
+        <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.0.4/pixi.min.js"
+                integrity="sha512-UQMlkbatDPsiH7tXKzfeZaPbR/TB1ThUOD6cjqmWPyKhdBl5jHiCVpSrfl+8n3KfEDhnhPhA+/8joiYpTHeC6w=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"
+        ></script>
+        <script src="particle-emitter.js"></script>
     </head>
     <body>
         <h1>Hello PixiJS</h1>
@@ -18,6 +26,33 @@
                 elapsed += ticker.deltaTime;
                 sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
             });
+
+            (function addParticle() {
+                const cnt = new ParticleContainer();
+                app.stage.addChild(cnt);
+                // const ticker = new Ticker();
+                let elapsed = 0;
+                app.ticker.add(() => renderer.render(stage));
+                app.ticker.start();
+
+                const emitter = new PIXI.particles.Emitter(cnt, {
+                        lifetime: { min: 0.1, max: 3 },
+                        frequency: 1,
+                        spawnChance: 1,
+                        particlesPerWave: 1,
+                        emitterLifetime: 120,
+                        maxParticles: 10,
+                        pos: { x: 327, y: 200 },
+                        autoUpdate: true,
+                        behaviors: [
+                            {
+                                type: 'spawnShape',
+                                config: { type: 'torus', data: { x: 0, y: 0, radius: 100 } },
+                            },
+                            { type: 'textureSingle', config: { texture: PIXI.Texture.WHITE } },
+                        ],
+                    });
+            })();
         </script>
     </body>
 </html>
